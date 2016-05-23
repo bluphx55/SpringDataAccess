@@ -6,10 +6,11 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
 	<context:property-placeholder location="src/main/java/com/demo/assets/dbInfo.properties"/>
+	<context:component-scan base-package="com.demo.model"/>
 	
-	<bean id="fruit" class="com.demo.model.Fruit">
-		<property name="name" value="Apple" />
-	</bean>
+<!-- 	<bean id="fruit" class="com.demo.model.Fruit"> -->
+<!-- 		<property name="name" value="Apple" /> -->
+<!-- 	</bean> -->
 	
 <!-- 	Basic data pool connection -->
 	<bean id="myBasicDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">

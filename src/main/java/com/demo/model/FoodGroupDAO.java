@@ -50,6 +50,43 @@ public class FoodGroupDAO {
 		this.MyJdbcTemplate = new NamedParameterJdbcTemplate(ds);
 	}
 	
-	
+	public FoodGroup getFoodGroup(int id){
+			
+		MapSqlParameterSource myMap = new MapSqlParameterSource();
+		myMap.addValue("id", id);
+		
+		return MyJdbcTemplate.queryForObject("Select * from foodgroups where id = :id", myMap, new RowMapper<FoodGroup>(){
 
+			public FoodGroup mapRow(ResultSet rs, int rowNum) throws SQLException {
+				
+				FoodGroup fg = new FoodGroup();
+				fg.setId(rs.getInt("id")); //db table column id is an int value
+				fg.setName(rs.getString("name")); //db table column name is varchar
+				fg.setDescription(rs.getString("description")); //db table column description is varchar
+				
+				return fg;
+				
+			}});
+			
+	}
+
+	public Boolean addFoodGroup(String name, String description) {
+		
+		Boolean res = false;
+		
+		MapSqlParameterSource params = new MapSqlParameterSource();
+		params.addValue("name", name);
+		params.addValue("description", description);
+		
+		int numOfRowsAffected = MyJdbcTemplate.update("insert into foodgroups (name, description) values (:name, :description)", params);
+		
+		if(numOfRowsAffected == 1){
+			System.out.println("One row added to table foodgroups successfully");
+			res = true;
+		} else {
+			System.out.println("There was a problem adding to table foodgroups");
+		}
+		
+		return res; 
+	}
 }
